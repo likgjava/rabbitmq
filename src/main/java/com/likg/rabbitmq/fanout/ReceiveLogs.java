@@ -1,4 +1,4 @@
-package com.likg.rabbitmq.t3;
+package com.likg.rabbitmq.fanout;
 
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
@@ -17,10 +17,13 @@ public class ReceiveLogs {
         Channel channel = connection.createChannel();
 
         channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
-        String queueName = channel.queueDeclare().getQueue();
-        channel.queueBind(queueName, EXCHANGE_NAME, "");
 
-        System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+        //产生一个随机的队列名称
+        String queueName = channel.queueDeclare().getQueue();
+        System.out.println("queueName=" + queueName);
+        channel.queueBind(queueName, EXCHANGE_NAME, ""); //对队列进行绑定
+
+        System.out.println(" [*] Waiting for messages......");
 
         QueueingConsumer consumer = new QueueingConsumer(channel);
         channel.basicConsume(queueName, true, consumer);
