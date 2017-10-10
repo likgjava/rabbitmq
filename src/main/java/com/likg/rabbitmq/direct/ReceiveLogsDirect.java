@@ -1,4 +1,4 @@
-package com.likg.rabbitmq.t4;
+package com.likg.rabbitmq.direct;
 
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
