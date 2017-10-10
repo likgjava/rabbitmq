@@ -1,4 +1,4 @@
-package com.likg.rabbitmq.t2;
+package com.likg.rabbitmq.work;
 
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
@@ -18,12 +18,13 @@ public class NewTask {
 
         channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
 
-        String message = getMessage(argv);
 
-        channel.basicPublish( "", TASK_QUEUE_NAME,
-                MessageProperties.PERSISTENT_TEXT_PLAIN,
-                message.getBytes());
-        System.out.println(" [x] Sent '" + message + "'");
+        for (int i = 0; i < 100; i++) {
+            String message = "Hello World" + i;
+            channel.basicPublish("", TASK_QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
+            System.out.println("Sent '" + message + "'");
+            Thread.sleep(1000);
+        }
 
         channel.close();
         connection.close();
